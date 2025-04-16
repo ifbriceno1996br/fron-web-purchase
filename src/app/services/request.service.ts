@@ -37,6 +37,12 @@ export class RequestService {
       responseType: 'blob'
     });
   }
+  downloadReportUserStats(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/user-stats/csv`, {
+      headers: this.getHeaders(),
+      responseType: 'blob'
+    });
+  }
 
   createRequest(request: { description: string; amount: number }): Observable<PurchaseRequest> {
     const body = {

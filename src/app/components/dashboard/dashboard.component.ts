@@ -80,6 +80,22 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  downloadUserStatsReport() {
+    this.requestService.downloadReportUserStats().subscribe({
+      next: (blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `solicitudes_usuario_${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Error downloading user stats report:', error);
+      }
+    });
+  }
+
   getStatusClass(status: string): string {
     const statusMap: { [key: string]: string } = {
       'pendiente': 'pending',

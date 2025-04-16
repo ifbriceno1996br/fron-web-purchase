@@ -73,7 +73,7 @@
           Rechazadas
         </button>
         </div>
-        <button class="download-btn" (click)="downloadReport()">
+        <button class="download-btn" *ngIf="currentRole === 'supervisor'" (click)="downloadUserStatsReport()">
           <i class="fas fa-download"></i>
           Descargar Reporte
         </button>

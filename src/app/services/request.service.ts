@@ -28,7 +28,7 @@ export class RequestService {
   }
 
   updateRequestStatus(requestId: number, status: string, comment: string): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${requestId}/status/`, { status, comment }, { headers: this.getHeaders() });
+    return this.http.put(`${this.apiUrl}/${requestId}/status/`, { status, comment }, { headers: this.getHeaders() });
   }
 
   downloadReport(): Observable<Blob> {

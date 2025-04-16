@@ -1,0 +1,19 @@
+<div class="role-selector">
+  <div class="role-card">
+    <h2>Selecciona un rol</h2>
+    <div class="roles-container">
+      <button 
+        *ngFor="let role of availableRoles" 
+        (click)="selectRole(role)"
+        class="role-button"
+      >
+        <i class="fas" [ngClass]="{
+          'fa-user-shield': role === 'admin',
+          'fa-user': role === 'user',
+          'fa-user-tie': role === 'supervisor'
+        }"></i>
+        <span>{{ role | titlecase }}</span>
+      </button>
+    </div>
+  </div>
+</div>

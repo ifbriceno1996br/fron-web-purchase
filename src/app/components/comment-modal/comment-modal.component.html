@@ -1,0 +1,29 @@
+<div class="modal-overlay" *ngIf="show">
+  <div class="modal-container">
+    <h2>{{ title }}</h2>
+    
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+      <div class="form-content" *ngIf="showCommentField">
+        <div class="form-group">
+          <label for="comment">Comentario</label>
+          <textarea 
+            id="comment"
+            formControlName="comment" 
+            rows="4" 
+            [required]="showCommentField"
+          ></textarea>
+          <div class="error-message" *ngIf="commentForm.get('comment')?.hasError('required') && commentForm.get('comment')?.touched">
+            El comentario es requerido
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-secondary" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="btn-primary" [disabled]="commentForm.invalid">
+          Confirmar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

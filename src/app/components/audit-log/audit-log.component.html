@@ -1,0 +1,88 @@
+<div class="audit-container">
+  <div class="audit-header">
+    <h2>Registro de Auditoría</h2>
+    <p class="subtitle">Historial de cambios en las solicitudes</p>
+
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input 
+          type="number" 
+          [(ngModel)]="searchRequestId" 
+          (ngModelChange)="onSearchChange()"
+          placeholder="Buscar por ID de solicitud"
+          min="1"
+        >
+        <button 
+          *ngIf="searchRequestId" 
+          class="clear-btn" 
+          (click)="clearSearch()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="audit-content" *ngIf="!loading; else loadingTemplate">
+    <div class="audit-timeline" *ngIf="filteredLogs.length > 0; else noResults">
+      <div class="results-count" *ngIf="searchRequestId">
+        {{ filteredLogs.length }} resultado{{ filteredLogs.length !== 1 ? 's' : '' }} encontrado{{ filteredLogs.length !== 1 ? 's' : '' }}
+      </div>
+      <div class="timeline-item" *ngFor="let log of filteredLogs">
+        <div class="timeline-icon">
+          <i class="fas" [ngClass]="getActionIcon(log.action)"></i>
+        </div>
+        <div class="timeline-content">
+          <div class="action-header">
+            <div class="action-info">
+              <span class="action-type">{{ getActionText(log.action) }}</span>
+              <div class="user-info">
+                <i class="fas fa-user"></i>
+                <span class="user-name">{{ log.user.full_name }}</span>
+                <span class="user-role">{{ getRoleName(log.user.roles[0].name) }}</span>
+              </div>
+            </div>
+            <span class="timestamp">{{ log.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          
+          <div class="action-details">
+
+            <div class="status-change" *ngIf="log.action === 'status_change'">
+              <div class="status-badge" [ngClass]="getStatusClass(log.previous_status)">
+                {{ log.previous_status || 'N/A' }}
+              </div>
+              <i class="fas fa-arrow-right"></i>
+              <div class="status-badge" [ngClass]="getStatusClass(log.new_status)">
+                {{ log.new_status }}
+              </div>
+            </div>
+
+            <div class="comment" *ngIf="log.comment">
+              <i class="fas fa-comment"></i>
+              <p>{{ log.comment }}</p>
+            </div>
+
+            <div class="request-info">
+              <i class="fas fa-file-alt"></i>
+              <span>Solicitud #{{ log.request_id }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noResults>
+  <div class="no-results">
+    <i class="fas fa-search"></i>
+    <p>No se encontraron registros{{ searchRequestId ? ' para la solicitud #' + searchRequestId : '' }}</p>
+  </div>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <div class="loading-state">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span>Cargando registros de auditoría...</span>
+  </div>
+</ng-template>

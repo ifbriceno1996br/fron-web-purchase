@@ -18,6 +18,13 @@
     </div>
   </div>
 
+  <div class="dashboard-actions" *ngIf="currentRole !== 'supervisor'">
+    <button class="new-request-btn" routerLink="/new-request">
+      <i class="fas fa-plus"></i>
+      Nueva Solicitud
+    </button>
+  </div>
+
   <div class="dashboard-tabs" *ngIf="currentRole === 'supervisor'">
     <button 
       class="tab-btn" 
